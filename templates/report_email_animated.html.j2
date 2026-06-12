@@ -88,15 +88,16 @@
     .mem-bar { background-color: #3b82f6; }
     .disk-bar { background-color: #10b981; }
 
-    .label {
-      margin-top: 4px;
-      font-size: 12px;
-      color: #64748b;
+    .metric-val {
+      font-weight: 600;
+      color: #1e293b;
+      font-size: 13px;
+      margin-bottom: 2px;
     }
 
     .badge {
       font-size: 11px;
-      padding: 3px 8px;
+      padding: 4px 10px;
       border-radius: 12px;
       display: inline-block;
       font-weight: 600;
@@ -134,10 +135,11 @@
 
   <table>
     <tr>
-      <th>🌐 Hostname</th>
-      <th>🔥 CPU Usage</th>
-      <th>📥 Memory Usage</th>
-      <th>📦 Disk Usage</th>
+      <th style="width: 25%;">🌐 Hostname</th>
+      <th style="width: 15%;">🩺 Status</th>
+      <th style="width: 20%;">🔥 CPU Usage</th>
+      <th style="width: 20%;">📥 Memory Usage</th>
+      <th style="width: 20%;">📦 Disk Usage</th>
     </tr>
     {% for vm in collected_metrics %}
     <tr>
@@ -145,32 +147,28 @@
         <a href="http://{{ vm.hostname }}" target="_blank">{{ vm.hostname }}</a>
       </td>
       <td>
-        {{ vm.cpu }}%
-        <div class="bar-container"><div class="bar cpu-bar" style="width: {{ vm.cpu }}%"></div></div>
-        {% if vm.cpu|float < 50 %}
-          <div class="badge healthy">Healthy</div>
-          <div class="label">Low</div>
-        {% elif vm.cpu|float < 80 %}
-          <div class="badge warning">Warning</div>
-          <div class="label">Moderate</div>
-        {% else %}
+        {% set cpu_f = vm.cpu | float %}
+        {% set mem_f = vm.mem | float %}
+        {% set disk_f = vm.disk | float %}
+        {% if cpu_f >= 80 or mem_f >= 80 or disk_f >= 80 %}
           <div class="badge critical">Critical</div>
-          <div class="label">High</div>
+        {% elif cpu_f >= 50 or mem_f >= 50 or disk_f >= 50 %}
+          <div class="badge warning">Warning</div>
+        {% else %}
+          <div class="badge healthy">Healthy</div>
         {% endif %}
       </td>
       <td>
-        {{ vm.mem }}%
-        <div class="bar-container"><div class="bar mem-bar" style="width: {{ vm.mem }}%"></div></div>
-        {% if vm.mem|float < 50 %}<div class="label">Low</div>
-        {% elif vm.mem|float < 80 %}<div class="label">Moderate</div>
-        {% else %}<div class="label">High</div>{% endif %}
+        <div class="metric-val">{{ vm.cpu }}%</div>
+        <div class="bar-container"><div class="bar cpu-bar" style="width: {{ vm.cpu }}%"></div></div>
       </td>
       <td>
-        {{ vm.disk }}%
+        <div class="metric-val">{{ vm.mem }}%</div>
+        <div class="bar-container"><div class="bar mem-bar" style="width: {{ vm.mem }}%"></div></div>
+      </td>
+      <td>
+        <div class="metric-val">{{ vm.disk }}%</div>
         <div class="bar-container"><div class="bar disk-bar" style="width: {{ vm.disk }}%"></div></div>
-        {% if vm.disk|float < 50 %}<div class="label">Ample</div>
-        {% elif vm.disk|float < 80 %}<div class="label">Monitor</div>
-        {% else %}<div class="label">Full</div>{% endif %}
       </td>
     </tr>
     {% endfor %}
