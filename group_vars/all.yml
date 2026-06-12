@@ -2,4 +2,4 @@ smtp_server: "smtp.gmail.com"
 smtp_port: 587
 email_user: "pakashghorpade2001@gmail.com"
 email_pass: "yhwg niyo rcvi tpmp"
-alert_recipient: "prakashghorpade901@gmail.com" 
+alert_recipient: "prakashghorpade901@gmail.com"

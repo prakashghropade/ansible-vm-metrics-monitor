@@ -10,8 +10,8 @@
         map(attribute='value.vm_metrics') |
         list
       }}
-    timestamp: "{{ ansible_date_time.date }} {{ ansible_date_time.time }}"
-    subject_line: "📊 VM Report – {{ ansible_date_time.date }} {{ ansible_date_time.hour }}:{{ ansible_date_time.minute }}"
+    timestamp: "{{ ansible_facts['date_time']['date'] }} {{ ansible_facts['date_time']['time'] }}"
+    subject_line: "📊 VM Report – {{ ansible_facts['date_time']['date'] }} {{ ansible_facts['date_time']['hour'] }}:{{ ansible_facts['date_time']['minute'] }}"
   tasks:
     - name: Send HTML report via email
       mail:

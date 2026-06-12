@@ -48,7 +48,7 @@ Ansible_monitor_vms/
 ├── playbook.yml                  # Main entry point importing sub-playbooks
 ├── collect_metric.yml            # Playbook to target hosts, install packages, and gather facts
 ├── send_report.yml               # Playbook to aggregate metrics and email HTML report
-├── groups_vars/
+├── group_vars/
 │   └── all.yml                   # SMTP & recipient email configurations (gitignored in production)
 ├── inventory/
 │   └── aws_ec2.yml               # AWS EC2 Dynamic Inventory plugin setup
@@ -83,7 +83,7 @@ Before running the playbooks, ensure your environment meets the following requir
      instance-state-name: running
    ```
 
-2. **Configure SMTP Variables (`groups_vars/all.yml`):**
+2. **Configure SMTP Variables (`group_vars/all.yml`):**
    Provide your specific sender/receiver and App Password credentials:
    ```yaml
    smtp_server: "smtp.gmail.com"
